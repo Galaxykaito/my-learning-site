@@ -2,6 +2,8 @@
 import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MarkdownIt from 'markdown-it'
+import markdownItKatex from 'markdown-it-katex'
+import 'katex/dist/katex.min.css'
 import { getNoteMeta, loadNoteContent } from '../notes-loader'
 
 const route = useRoute()
@@ -19,6 +21,9 @@ const md = new MarkdownIt({
   breaks: true,
   typographer: true
 })
+
+// 添加 KaTeX 数学公式支持
+md.use(markdownItKatex)
 
 onMounted(async () => {
   try {
