@@ -2,7 +2,8 @@
 import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MarkdownIt from 'markdown-it'
-import markdownItKatex from 'markdown-it-katex'
+import texmath from 'markdown-it-texmath'
+import katex from 'katex'
 import 'katex/dist/katex.min.css'
 import { getNoteMeta, loadNoteContent } from '../notes-loader'
 
@@ -23,7 +24,14 @@ const md = new MarkdownIt({
 })
 
 // 添加 KaTeX 数学公式支持
-md.use(markdownItKatex)
+md.use(texmath, {
+  engine: katex,
+  delimiters: 'dollars',
+  katexOptions: { 
+    macros: { "\\RR": "\\mathbb{R}" },
+    throwOnError: false 
+  }
+})
 
 onMounted(async () => {
   try {
